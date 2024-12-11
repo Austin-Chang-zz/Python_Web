@@ -1,1 +1,16 @@
-### document template
+### Document template
+<details>
+  <summary>n. ----------</summary>
+  
+    a------------------------
+</details>
+<details>
+  <summary>n. ----------</summary>
+  
+    a------------------------
+</details>
+<details>
+  <summary>n. ----------</summary>
+  
+    a------------------------
+</details>
