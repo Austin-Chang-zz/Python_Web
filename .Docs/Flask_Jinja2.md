@@ -8,7 +8,7 @@
   
 </details>
 <details>
-  <summary>2. flask --app filename run --debug</summary>
+  <summary>2. >flask --app filename run --debug</summary>
 </details>
 <details>
   <summary>3. flask + jinja2 + bootstrap codes template</summary>
