@@ -11,11 +11,16 @@
   1.5 download Compiled CSS and JS  
   [download Compiled CSS and JS](https://getbootstrap.com/docs/5.3/getting-started/download/)  
   1.6 copy the bootstrap.min.css, bootstrap.min.css.map to css folder, and bootstrap.bundle.min.js to js folder  
-  1.7 
-   
+  1.7 modify the related code, _base.j2 to the right file path with {{  }} jinja format 
+  
+      <link href="{{url_for('static', filename='css/bootstrap.min.css')}}" rel="stylesheet">     
+      <link href="{{url_for('static', filename='css/index.css')}}" rel="stylesheet">      
+      <script src="{{url_for('static',filename='js/bootstrap.bundle.min.js')}}"></script>   
   
   
-    a---
+  
+  
+
 </details>
 <details>
   <summary>n. ---</summary>
