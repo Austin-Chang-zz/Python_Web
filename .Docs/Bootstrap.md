@@ -9,7 +9,9 @@
   1.3 use right click on the page to get the bootstrap code  
   1.4 copy the code to vs code  
   1.5 download Compiled CSS and JS  
-  [download Compiled CSS and JS](https://getbootstrap.com/docs/5.3/getting-started/download/)
+  [download Compiled CSS and JS](https://getbootstrap.com/docs/5.3/getting-started/download/)  
+  1.6 copy the bootstrap.min.css, bootstrap.min.css.map to css folder, and bootstrap.bundle.min.js to js folder  
+  1.7 
    
   
   
