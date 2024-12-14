@@ -51,11 +51,6 @@ def faqs():
     myForm = MyForm()
 
     return render_template('faqs.j2',myform = myForm)
-# #  --- The code just added---------------
-# @app.route("/production")
-# def about():
-#     return render_template('production.j2')
-# #----end of code added-------------------
 
 @app.route("/about")
 def about():
