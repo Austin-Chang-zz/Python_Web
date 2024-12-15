@@ -10,8 +10,7 @@ app1 = Dash(__name__,requests_pathname_prefix="/dash/")
 # Define the layout
 app1.layout = html.Div([
     html.H1("Production Page", style={'textAlign': 'center'}),
-    dcc.Markdown("### Welcome to the Production Page"),
-    dcc.Markdown(f"**Data Preview:**\n\n{df.head().to_markdown()}"),
+    dcc.Markdown("### Check Production Yield Rate & Thru Put of Customer's Order for Each Sales",style={'textAlign':'center'}),
     dcc.Dropdown(df.sales_name.unique(),value="Alice",id='dropdown-selection'),
     dash_table.DataTable(data=df.to_dict('records'),page_size=10,id='datatable'),
     dcc.Graph(id='graph-content') 
