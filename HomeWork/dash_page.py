@@ -13,14 +13,7 @@ app1.layout = html.Div([
     dcc.Markdown("### Check Production Yield Rate & Thru Put of Customer's Order for Each Sales",style={'textAlign':'center'}),
     dcc.RadioItems(['yield_rate','thru_put'],value='yield_rate',inline=True,id='radio_item'),
     dcc.Dropdown(df.sales_name.unique(),value="Alice",id='dropdown-selection'),
-    dash_table.DataTable(data=df.to_dict('records'),page_size=10,id='datatable',columns=[
-        {'id':'sales_name','name':'sales_name'},
-        {'id':'customer_id','name':'customer_id'},
-        {'id':'order_date','name':'order_date'},
-        {'id':'deliver_date','name':'deliver_date'},
-        {'id':'factory','name':'factory'},
-        {'id':'yield_rate','name':'yield_rate'},
-        ]),
+    dash_table.DataTable(data=[],page_size=10,id='datatable',columns=[]),
     dcc.Graph(id='graph-content') 
 ])
 
@@ -45,12 +38,26 @@ def update_graph(sales_name_value,radio_value):
 # Event for showing the table
 @callback(
     Output('datatable','data'),
-    Input('dropdown-selection','value')
+    Output('datatable','columns'),
+    Input('dropdown-selection','value'),
+    Input('radio_item','value')
 )
 
-def update_table(value):
-    dff = df[df.sales_name == value]
-    return dff.to_dict('records')
+def update_table(sales_name_value,radio_value):
+    dff = df[df.sales_name == sales_name_value]
+    columns = [
+        {'id':'sales_name','name':'sales_name'},
+        {'id':'customer_id','name':'customer_id'},
+        {'id':'order_date','name':'order_date'},
+        {'id':'deliver_date','name':'deliver_date'},
+        {'id':'factory','name':'factory'}
+    ]
+    if radio_value == 'yield_rate':
+        columns.append({'id':'yield_rate','name':'yield_rate'})
+    elif radio_value == 'thru_put':
+        columns.append({'id':'thru_put','name':'thru_put'})
+    
+    return dff.to_dict('records'),columns
 
 
 if __name__ == '__main__':
