@@ -15,12 +15,10 @@ app1 = Dash(
     requests_pathname_prefix="/production/",
 )
 
-
-
 # Rest of the code remains unchanged
 radio_data = [['yield_rate', '良率'], ['thru_put', '直通率']]
 
-selected_data = [{'value': value, 'label': value} for value in df.country.unique()]
+selected_data = [{'value': value, 'label': value} for value in df.sales_name.unique()]
 
 app1.layout = dmc.MantineProvider(
     dmc.AppShell(
@@ -42,7 +40,7 @@ app1.layout = dmc.MantineProvider(
             dmc.AppShellMain(
                 [
                     dmc.Container(
-                        dmc.Title(f"Production Yield Rate & Thru PUt", order=2),
+                        dmc.Title(f"Production Yield Rate & Throught Put", order=2),
                         fluid=True,
                         ta='center',
                         my=30,
@@ -60,16 +58,16 @@ app1.layout = dmc.MantineProvider(
                                             my=10,
                                         ),
                                         id="radio_item",
-                                        value="pop",
+                                        value="yield_rate",
                                         label="請選擇查詢的種類",
                                         size="md",
                                         mb=10,
                                     ),
                                     dmc.Select(
-                                        label="請選擇國家",
+                                        label="請選擇業務",
                                         placeholder="請選擇1個",
                                         id="dropdown-selection",
-                                        value="Taiwan",
+                                        value="Alice",
                                         data=selected_data,
                                         w=200,
                                         mb=10,
@@ -88,7 +86,7 @@ app1.layout = dmc.MantineProvider(
                         dmc.LineChart(
                             id='lineChart',
                             h=300,
-                            dataKey="year",
+                            dataKey="order_date",
                             data=None,
                             series=[],
                             curveType="bump",
@@ -114,18 +112,16 @@ app1.layout = dmc.MantineProvider(
     Input('dropdown-selection', 'value'),
     Input('radio_item', 'value'),
 )
-def update_graph(country_value, radio_value):
-    dff = df[df.country == country_value]
-    pop_diff = dff[['country', 'year', radio_value]]
+def update_graph(sales_name_value, radio_value):
+    dff = df[df.sales_name == sales_name_value]
+    yield_rate_diff = dff[['sales_name', 'order_date', radio_value]]
 
-    line_chart_data = pop_diff.to_dict('records')
-    if radio_value == 'pop':
-        label = f'{country_value}:人口'
-    elif radio_value == 'lifeExp':
-        label = f'{country_value}:平均壽命'
-    elif radio_value == 'gdpPercap':
-        label = f'{country_value}人均GDP'
-
+    line_chart_data = yield_rate_diff.to_dict('records')
+    if radio_value == 'yield_rate':
+        label = f'{sales_name_value}: Yield Rate Chart'
+    elif radio_value == 'thru_put':
+        label = f'{sales_name_value}: Through Put Chart'
+   
     series = [{"name": radio_value, "label": label, "color": "indigo.6"}]
 
     return line_chart_data, series
@@ -135,41 +131,40 @@ def update_graph(country_value, radio_value):
     Input('dropdown-selection', 'value'),
     Input('radio_item', 'value'),
 )
-def update_table(country_value, radio_value):
-    dff = df[df.country == country_value]
-    pop_diff = dff[['country', 'year', radio_value]]
-    elements = pop_diff.to_dict('records')
+def update_table(sales_name_value, radio_value):
+    dff = df[df.sales_name == sales_name_value]
+    yield_rate_diff = dff[['sales_name', 'order_date', radio_value]]
+    elements = yield_rate_diff.to_dict('records')
 
     rows = [
         dmc.TableTr(
             [
-                dmc.TableTd(element["country"]),
-                dmc.TableTd(element["year"]),
+                dmc.TableTd(element["sales_name"]),
+                dmc.TableTd(element["order_date"]),
                 dmc.TableTd(element[radio_value]),
             ]
         )
         for element in elements
     ]
 
-    if radio_value == 'pop':
-        head_name = '人口'
-    elif radio_value == 'lifeExp':
-        head_name = '平均壽命'
-    elif radio_value == 'gdpPercap':
-        head_name = '人均GDP'
+    if radio_value == 'yield_rate':
+        head_name = '良率'
+    elif radio_value == 'thru_put':
+        head_name = '直通率'
+    
 
     head = dmc.TableThead(
         dmc.TableTr(
             [
-                dmc.TableTh("國家"),
-                dmc.TableTh("年份"),
+                dmc.TableTh("業務"),
+                dmc.TableTh("訂單日期"),
                 dmc.TableTh(head_name),
             ]
         )
     )
 
     body = dmc.TableTbody(rows)
-    caption = dmc.TableCaption(f"{country_value} 年份,{head_name}")
+    caption = dmc.TableCaption(f"{sales_name_value} ,{head_name}")
     return dmc.Table([head, body, caption])
 
 if __name__ == '__main__':
