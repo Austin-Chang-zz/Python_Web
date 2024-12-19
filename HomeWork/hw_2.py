@@ -16,7 +16,7 @@ app1 = Dash(
 )
 
 # Rest of the code remains unchanged
-radio_data = [['pop', '人口'], ['lifeExp', '平均壽命'], ['gdpPercap', '人均gdp']]
+radio_data = [['yield_rate', '良率'], ['thru_put', '直通率']]
 
 selected_data = [{'value': value, 'label': value} for value in df.country.unique()]
 
@@ -40,7 +40,7 @@ app1.layout = dmc.MantineProvider(
             dmc.AppShellMain(
                 [
                     dmc.Container(
-                        dmc.Title(f"世界各國人口,壽命,gdp統計數字", order=2),
+                        dmc.Title(f"Production Yield Rate & Thru PUt", order=2),
                         fluid=True,
                         ta='center',
                         my=30,
