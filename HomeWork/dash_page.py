@@ -1,21 +1,63 @@
 from dash import Dash,html,dcc,callback,Input,Output,dash_table
 import pandas as pd
 import plotly.express as px
+import dash_mantine_components as dmc
 
 df = pd.read_csv('https://raw.githubusercontent.com/Austin-Chang-zz/Python_Web/main/HomeWork/sales_orders.csv')
 
-app1 = Dash(__name__,requests_pathname_prefix="/dash/")
+app1 = Dash(__name__,requests_pathname_prefix="/product/")
 
 
 # Define the layout
-app1.layout = html.Div([
-    html.H1("Production Page", style={'textAlign': 'center'}),
-    dcc.Markdown("### Check Production Yield Rate & Thru Put of Customer's Order for Each Sales",style={'textAlign':'center'}),
-    dcc.RadioItems(['yield_rate','thru_put'],value='yield_rate',inline=True,id='radio_item'),
-    dcc.Dropdown(df.sales_name.unique(),value="Alice",id='dropdown-selection'),
-    dash_table.DataTable(data=[],page_size=10,id='datatable',columns=[]),
-    dcc.Graph(id='graph-content') 
-])
+app1.layout = dmc.MantineProvider(
+    [
+        # Title container
+        dmc.Container(
+            html.H1("Production Page", style={'textAlign': 'center'}),
+            fluid=True
+        ),
+        
+        
+        # Flex container for inputs and table
+        dmc.Flex(
+            [
+                dmc.Stack(
+                    [
+                        dcc.RadioItems(
+                            ['yield_rate', 'thru_put'],
+                            value='yield_rate',
+                            inline=True,
+                            id='radio_item'
+                        ),
+                        dcc.Dropdown(
+                            df.sales_name.unique(),
+                            value="Alice",
+                            id='dropdown-selection'
+                        )
+                    ],
+                    w=300
+                ),
+                dash_table.DataTable(
+                    data=[],
+                    page_size=10,
+                    id='datatable',
+                    columns=[]
+                )
+            ],
+            direction={"base": "column", "sm": "row"},
+            gap={"base": "sm", "sm": "lg"},
+            justify={"sm": "center"}
+        ),
+        
+        # Graph container
+        dmc.Container(
+        dcc.Graph(id='graph-content')
+        )
+    ]
+)
+
+
+
 
 # Event for showing the graph
 @callback(

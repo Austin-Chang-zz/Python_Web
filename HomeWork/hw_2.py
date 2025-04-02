@@ -9,12 +9,17 @@ _dash_renderer._set_react_version("18.2.0")
 df = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/gapminder_unfiltered.csv')
 
 # Updated requests_pathname_prefix to /production
-app1 = Dash(
+# app1 = Dash(
+#     __name__,
+#     external_stylesheets=dmc.styles.ALL,
+#     requests_pathname_prefix="/production/",
+# )
+#---------------
+app2 = Dash(
     __name__,
     external_stylesheets=dmc.styles.ALL,
     requests_pathname_prefix="/production/",
 )
-
 
 
 # Rest of the code remains unchanged
